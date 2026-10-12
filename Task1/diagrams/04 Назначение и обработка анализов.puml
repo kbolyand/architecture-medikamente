@@ -1,0 +1,13 @@
+@startuml
+title Data Flow: Назначение и обработка анализов
+usecase "Назначение и обработка анализов" as Process
+rectangle "Врач" as Doctor
+rectangle "Лаборатория" as Lab
+database "Lab/RegistryByDate.xlsx Реестр анализов за день" as Registry
+database "Pacients/Pacient1-FIO-BD \nФайлы пациента в разных форматах" as PatientFiles
+Doctor --> Process : Назначение исследования, данные пациента
+Process --> Registry : Запись об исследовании в дневной реестр
+Process --> Lab : Направление на исследование
+Lab --> Process : Результаты анализа
+Process --> PatientFiles : Результат анализа
+@enduml

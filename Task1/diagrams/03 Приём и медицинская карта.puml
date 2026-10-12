@@ -1,0 +1,13 @@
+@startuml
+title Data Flow: Приём и медкарта
+usecase "Проведение приёма и ведение медкарты" as Process
+rectangle "Пациент" as Patient
+rectangle "Врач" as Doctor
+database "Pacients/Pacient1-FIO-BD \nФайлы пациента в разных форматах" as PatientFiles
+database "Journal-Doctor-FIO.xlsx \nExcel-файл: журнал, где регистрируют \nзапись пациентов к одному специалисту  " as DocJournal
+DocJournal --> Doctor : Сведения о записи
+Patient --> Doctor : Жалобы, сведения о здоровье
+Doctor --> Process : Внесение результатов осмотра
+PatientFiles --> Process : История и документы пациента
+Process --> PatientFiles : Заключение, диагноз, назначения
+@enduml

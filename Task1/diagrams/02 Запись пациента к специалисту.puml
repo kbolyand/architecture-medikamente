@@ -1,0 +1,15 @@
+@startuml
+title "Data Flow: Запись пациента к специалисту"
+usecase "Запись пациента к специалисту" as Process
+rectangle "Пациент" as Patient
+rectangle "Администратор ресепшен" as ReceptionAdmin
+rectangle "Врач" as Doctor
+database "Patients.xlsx \nExcel-файл со списком пациентов" as PatientBook
+database "Journal-Doctor-FIO.xlsx \nExcel-файл: журнал, где регистрируют запись пациентов к одному специалисту  " as DocJournal
+Patient --> ReceptionAdmin : Данные пациента, желаемый врач и время
+ReceptionAdmin --> Process : Регистрация записи
+PatientBook --> Process : Идентификация пациента
+Process --> DocJournal : ФИО / идентификатор, врач, дата и время
+DocJournal --> Doctor : Список записанных пациентов
+Doctor --> DocJournal : Просмотр и редактирование журнала
+@enduml
