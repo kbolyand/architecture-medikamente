@@ -1,0 +1,14 @@
+@startuml
+title "Data Flow: Регистрация пациента"
+usecase "Регистрация пациента" as Process
+rectangle "Пациент" as Patient
+rectangle "Администратор ресепшен" as ReceptionAdmin
+database "Файловый сервер с данными пациентов и информацией о приемах \n(шифрование)" as PatientBook
+database "Журнал аудита" as AuditBook
+database "Active Directory" as AD
+Patient --> ReceptionAdmin : Минимально необходимые данные: ФИО, дата рождения, телефон
+ReceptionAdmin --> Process : Ввод данных
+Process --> PatientBook : ПДн и файлы пациента
+PatientBook --> AuditBook : Запись в аудит о доступе и внесении изменений
+PatientBook --> AD : Проверка прав доступа на чтение и запись
+@enduml

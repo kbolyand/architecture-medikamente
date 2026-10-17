@@ -1,0 +1,19 @@
+@startuml
+title Data Flow: Назначение и обработка анализов
+usecase "Назначение и обработка анализов" as Process
+rectangle "Врач" as Doctor
+rectangle "Лаборатория" as Lab
+database "Lab/RegistryByDate.xlsx Реестр анализов за день\n(шифрование)" as Registry
+database "Файловый сервер с данными пациентов и информацией о приемах \n(шифрование)" as PatientBook
+database "Журнал аудита" as AuditBook
+database "Active Directory" as AD
+Doctor --> Process : Назначение исследования, данные пациента
+Process --> Registry : Запись об исследовании в дневной реестр
+Process --> Lab : Направление на исследование
+Lab --> Process : Результаты анализа
+Process --> PatientBook : Результат анализа
+PatientBook --> AuditBook : Запись в аудит о доступе и внесении изменений
+PatientBook --> AD : Проверка прав доступа на чтение и запись
+Registry --> AuditBook : Запись в аудит о доступе и внесении изменений
+Registry --> AD : Проверка прав доступа на чтение и запись
+@enduml

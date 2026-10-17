@@ -1,0 +1,11 @@
+@startuml
+title Data Flow: Процессинг платежей
+usecase "Процессинг платежей" as Process
+rectangle "Бухгалтер" as BookKeeper 
+rectangle "1C Бухгалтерия предприятия\n(шифрование)" as OneC
+rectangle "ККМ" as KKM
+BookKeeper  --> Process : Ввод и обработка сведений(RBAC/TLS)
+KKM --> OneC : Сведения о платежах(RBAC/TLS)
+Process --> OneC : Кадровый учёт, зарплата, налоги, платежи
+OneC --> BookKeeper  : Отчётность и расчётные данныеRBAC/TLS)
+@enduml

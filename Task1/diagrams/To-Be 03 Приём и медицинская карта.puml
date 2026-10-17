@@ -1,0 +1,16 @@
+@startuml
+title Data Flow: Приём и медкарта
+usecase "Проведение приёма и ведение медкарты" as Process
+rectangle "Пациент" as Patient
+rectangle "Врач" as Doctor
+database "Файловый сервер с данными пациентов и информацией о приемах \n(шифрование)" as PatientBook
+database "Журнал аудита" as AuditBook
+database "Active Directory" as AD
+PatientBook --> Doctor : Сведения о записи
+Patient --> Doctor : Жалобы, сведения о здоровье
+Doctor --> Process : Внесение результатов осмотра
+PatientBook --> Process : История и документы пациента
+Process --> PatientBook : Заключение, диагноз, назначения
+PatientBook --> AuditBook : Запись в аудит о доступе и внесении изменений
+PatientBook --> AD : Проверка прав доступа на чтение и запись
+@enduml
