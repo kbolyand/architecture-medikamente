@@ -1,0 +1,17 @@
+@startuml
+title DFD As-Is 05 — Ручная аналитика
+left to right direction
+skinparam shadowing false
+database "Excel/сканы\nобщий диск" as F
+database "1С:Бухгалтерия" as B
+database "1С:Торговля и склад" as T
+rectangle "Бизнес-аналитик\nJupyter/Python, Excel" as A
+database "Локальные выборки /\nтаблицы" as O
+F --> A : ручное извлечение
+B --> A : выгрузки
+T --> A : данные анализа
+A ..> O : локальное сохранение
+note bottom of A
+  Дубли персональных данных, неконтролируемое распостранение.
+end note
+@enduml

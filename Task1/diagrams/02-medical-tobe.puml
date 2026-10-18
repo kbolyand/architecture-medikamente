@@ -1,0 +1,23 @@
+@startuml
+title DFD To-Be 02 — Медкарты и лаборатория
+left to right direction
+skinparam shadowing false
+actor "Врач / Пациент" as U
+cloud "Лаборатория\nвнешняя" as L
+rectangle "Gateway\nOIDC, TLS" as G
+rectangle "Medical Service\nABAC per patient\ncare relationship" as S
+rectangle "Lab Adapter\nmTLS, schema validation\nminimized payload" as I
+database "Clinical DB + private files\nKMS, encrypted, L3 tags" as D
+database "Audit / SIEM\nimmutable access log" as A
+U --> G : запрос документов
+G --> S : identity, scope
+S <--> D : authorized read/write
+S <--> I : signed request/result
+I <--> L : mTLS, scoped data
+S --> A : actor, patient, purpose, outcome
+I --> A : exchange metadata
+note bottom of S
+  Пациент читает только свои документы.
+  Врач — только при назначении и цели лечения.
+end note
+@enduml

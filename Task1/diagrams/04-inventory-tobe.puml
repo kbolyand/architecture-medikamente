@@ -1,0 +1,20 @@
+@startuml
+title DFD To-Be 04 — Склад и закупки
+left to right direction
+skinparam shadowing false
+actor "Склад" as W
+cloud "Поставщик" as V
+rectangle "Supplier ingestion\nvalidation / malware scan" as I
+rectangle "Inventory workflow\nRBAC, separation of duties" as S
+database "1С:Торговля и склад\nrestricted ACL, backups" as T
+rectangle "Accounting adapter\nscoped identity" as A
+database "1С:Бухгалтерия" as B
+database "Audit/SIEM" as L
+V --> I : защищённые документы
+W --> S : учёт по своей роли, MFA
+I --> S : валидированные данные
+S <--> T : запись/чтение
+S --> A : учётные события
+A --> B : минимальный состав
+S --> L : журнал изменений
+@enduml

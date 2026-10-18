@@ -1,0 +1,13 @@
+@startuml
+title DFD As-Is 04 — Склад и закупки
+left to right direction
+skinparam shadowing false
+actor "Склад" as W
+cloud "Поставщик" as V
+database "1С:Торговля и склад\nфайловая база" as T
+database "1С:Бухгалтерия\nфайловая база" as B
+V --> W : накладные, контакты, счета
+W --> T : учёт ТМЦ, закупок
+T --> W : остатки и движения
+T --> B : интеграция учёта
+@enduml
