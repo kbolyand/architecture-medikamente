@@ -1,0 +1,21 @@
+@startuml
+title DFD To-Be 01 — Защищённая запись
+left to right direction
+skinparam shadowing false
+actor "Пациент" as P
+actor "Ресепшен" as R
+rectangle "Портал / Mobile\nOIDC PKCE, TLS" as UI
+rectangle "Gateway\nJWT, WAF, rate limit" as G
+rectangle "Appointment Service\nABAC/tenant/branch\nminimization" as S
+database "PostgreSQL\nenc, RLS, tagged PII" as DB
+rectangle "Notification\nбез PHI" as N
+database "Audit/SIEM\nметаданные" as A
+P --> UI : своё обращение/запись
+R --> G : запись по филиалу, MFA
+UI --> G : scoped API
+G --> S : verified identity
+S <--> DB : минимальные поля; TLS
+S --> N : ID, время, канал
+N --> P : нейтральное напоминание
+S --> A : actor, subject, decision, purpose
+@enduml

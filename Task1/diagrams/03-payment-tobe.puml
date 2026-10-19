@@ -1,0 +1,24 @@
+@startuml
+title DFD To-Be 03 — Платежи и бухгалтерия
+left to right direction
+skinparam shadowing false
+actor "Пациент / Кассир" as U
+rectangle "Payment Service\nRBAC, idempotency, TLS" as S
+rectangle "ККМ\nсегментированная сеть" as K
+rectangle "1С Adapter\nservice account, allowlist" as A
+database "1С:Бухгалтерия\nограниченные ACL, backup" as B
+database "Financial records\nenc, FINANCIAL tags" as D
+database "Audit / SIEM" as L
+U --> S : платёж/статус, минимум PII
+S --> K : фискализация
+K --> A : статус/чек
+S --> A : бухгалтерские сведения без PHI
+A --> B : контрольные проводки
+S --> D : transaction ID, status
+S --> L : операционный аудит
+A --> L : результат интеграции
+note bottom of S
+  Excel-дубль исключается после сверки.
+  Название услуги скрыто где не требуется.
+end note
+@enduml

@@ -1,0 +1,16 @@
+@startuml
+title DFD As-Is 02 — Медкарты и анализы
+left to right direction
+skinparam shadowing false
+actor "Пациент" as P
+rectangle "Врач\nручная обработка" as D
+database "Общий диск\nPDF/JPG/Excel: карты, анализы" as F
+rectangle "Ресепшен\nработа с документами" as R
+P --> D : жалобы, анамнез, данные обследования
+D --> F : запись/скан карты, заключения
+F --> D : чтение карты / результата
+F ..> R : возможное чтение
+note bottom of F
+  Нет аудита файловых операций по кейсу
+end note
+@enduml

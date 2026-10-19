@@ -1,0 +1,20 @@
+@startuml
+title DFD To-Be 05 — Защищённая аналитика
+left to right direction
+skinparam shadowing false
+database "OLTP / 1С / файлы" as S
+rectangle "Controlled ingestion\nclassification, lineage" as I
+database "Raw restricted zone\nenc, quarantine" as R
+rectangle "Privacy transform\nminimize, tokenize, anonymize" as P
+database "Curated lake / ClickHouse\nABAC, column policies" as C
+rectangle "BI / ML / AI\nmodel & export guardrails" as B
+database "Catalog + Audit/SIEM" as A
+S --> I : разрешённые данные, TLS
+I --> R : L2/L3, private
+R --> P : policy-bound processing
+P --> C : approved datasets only
+C --> B : purpose-limited queries
+I --> A : tags + lineage
+P --> A : transform evidence
+B --> A : queries/exports
+@enduml

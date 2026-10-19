@@ -1,0 +1,21 @@
+@startuml
+title DFD As-Is 03 — Оплата и бухучёт
+left to right direction
+skinparam shadowing false
+actor "Пациент" as P
+rectangle "Кассир\nдвойной ручной учёт" as C
+database "Excel\nреестр платежей" as X
+rectangle "ККМ\nTCP/IP и OLE" as K
+database "1С:Бухгалтерия\nфайловая база" as B
+rectangle "Бухгалтер" as A
+P --> C : оплата, данные договора
+C --> X : дублирующая запись
+C --> K : кассовая операция
+K --> B : интеграция через компоненту 1С
+C --> B : учёт операции
+B --> A : проводки, зарплата, налоги
+note bottom of B
+  Наличие защиты передачи и разграничений
+  прав доступа к файловой базе не указано.
+end note
+@enduml
